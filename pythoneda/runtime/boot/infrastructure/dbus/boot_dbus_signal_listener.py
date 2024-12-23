@@ -29,7 +29,6 @@ from typing import Dict
 
 
 class BootDbusSignalListener(DbusSignalListener):
-
     """
     A Port that listens to Boot-relevant d-bus signals.
 
@@ -50,18 +49,14 @@ class BootDbusSignalListener(DbusSignalListener):
         """
         super().__init__()
 
-    def signal_receivers(self, app) -> Dict:
+    @classmethod
+    def event_packages(cls) -> List[str]:
         """
-        Retrieves the configured signal receivers.
-        :param app: The PythonEDA instance.
-        :type app: pythoneda.shared.application.PythonEDA
-        :return: A dictionary with the signal name as key, and the tuple interface and bus type as the value.
-        :rtype: Dict
+        Retrieves the packages of the supported events.
+        :return: The packages.
+        :rtype: List[str]
         """
-        result = {}
-        key = self.__class__.full_class_name(BootRequested)
-        result[key] = [DbusBootRequested, BusType.SYSTEM]
-        return result
+        return ["pythoneda.runtime.boot.events.lifecycle.infrastructure.dbus"]
 
 
 # vim: syntax=python ts=4 sw=4 sts=4 tw=79 sr et
